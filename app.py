@@ -1,4 +1,5 @@
-from flask import Flask
+from flask import Flask, request
+from superres import supperresVideo
 
 app = Flask(__name__)
 
@@ -10,4 +11,10 @@ def hello_world():
 
 @app.route("/superres")
 def superres():
-    return "Yes..."
+    input = request.args.get("in")
+    out = request.args.get("out")
+    print(input, out)
+    if input is None or out is None:
+        return "error, missing arguments"
+    supperresVideo(input, out)
+    return "Done!"

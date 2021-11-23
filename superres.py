@@ -75,7 +75,7 @@ def supperresVideo(input: str, out: str):
     writeFrames(frames, out)
 
 
-# superresImage("images/oma.jpg")
-time = measure(lambda: supperresVideo("images/rotating-boy.gif", "out/vid/video.avi"))
+# # superresImage("images/oma.jpg")
+# time = measure(lambda: supperresVideo("images/rotating-boy.gif", "out/vid/video.avi"))
 
-print("superresing video took: ", time)
+# print("superresing video took: ", time)
