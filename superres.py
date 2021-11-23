@@ -3,7 +3,8 @@ import cv2
 from cv2 import CAP_PROP_TILT, THRESH_TOZERO, dnn_superres
 
 
-def path(): return "res/ESPCN_x4.pb"
+def path():
+    return "res/ESPCN_x4.pb"
 
 
 def create_superSampler():
@@ -32,13 +33,13 @@ def measure(func) -> float:
     start = time.time()
     func()
     end = time.time()
-    return end-start
+    return end - start
 
 
 def vidToFrames(filepath: str) -> list:
     capture = cv2.VideoCapture(filepath)
     frames = []
-    while(capture.isOpened()):
+    while capture.isOpened():
         ret, frame = capture.read()
         if ret == False:
             break
@@ -58,9 +59,11 @@ def writeFrames(frames: list, filename: str):
     if len(frames) <= 0:
         print("frames are empty.")
         return
+
     height, width, depth = frames[0].shape
     writer = cv2.VideoWriter(
-        filename, cv2.VideoWriter_fourcc(*'DIVX'), 15, (width, height))
+        filename, cv2.VideoWriter_fourcc(*"DIVX"), 15, (width, height)
+    )
     for frame in frames:
         writer.write(frame)
     writer.release()
@@ -73,7 +76,6 @@ def supperresVideo(input: str, out: str):
 
 
 # superresImage("images/oma.jpg")
-time = measure(lambda: supperresVideo(
-    "images/rotating-boy.gif", "out/vid/video.avi"))
+time = measure(lambda: supperresVideo("images/rotating-boy.gif", "out/vid/video.avi"))
 
 print("superresing video took: ", time)
