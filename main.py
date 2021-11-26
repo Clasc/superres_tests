@@ -9,17 +9,6 @@ def hello_world():
     return "<h1>Hello, World!</h1>"
 
 
-@app.route("/superrestest")
-def superrestest():
-    input = request.args.get("in")
-    out = request.args.get("out")
-    print(input, out)
-    if input is None or out is None:
-        return "error, missing arguments"
-    supperresVideo(input, out)
-    return "Done!"
-
-
 @app.route("/superres", methods=["POST"])
 def superres():
     # print(request.headers)
