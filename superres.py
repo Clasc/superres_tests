@@ -1,6 +1,10 @@
+import os
 import time
+from typing import IO, Any
 import cv2
-from cv2 import CAP_PROP_TILT, THRESH_TOZERO, dnn_superres
+from cv2 import CAP_PROP_TILT, THRESH_TOZERO, FileStorage, dnn_superres
+
+tempFile = lambda ext: os.path.join("temp", f"temp_vid.{ext}")
 
 
 def path():
@@ -73,6 +77,12 @@ def supperresVideo(input: str, out: str):
     frames = vidToFrames(input)
     frames = upresList(frames)
     writeFrames(frames, out)
+
+
+def videoStream(video: FileStorage):
+    (_, ext) = video.filename.split(".")
+    video.save(tempFile(ext))
+    supperresVideo(tempFile(ext), "out/request_superres.avi")
 
 
 # # superresImage("images/oma.jpg")
