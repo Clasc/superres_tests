@@ -15,4 +15,8 @@
 .out/**/*
 .temp/**/*
 node_modules
+__pycache__
+.vscode
+env
+images
 #!include:.gitignore
