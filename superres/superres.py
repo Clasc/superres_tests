@@ -5,15 +5,12 @@ import cv2
 from cv2 import CAP_PROP_TILT, THRESH_TOZERO, FileStorage, dnn_superres
 
 tempFile = lambda ext: os.path.join("temp", f"temp_vid.{ext}")
-
-
-def path():
-    return "res/ESPCN_x4.pb"
+model = lambda: "res/ESPCN_x4.pb"
 
 
 def create_superSampler():
     sr = cv2.dnn_superres.DnnSuperResImpl_create()
-    sr.readModel(path())
+    sr.readModel(model())
     # set the model by passing the value and the upsampling ratio
     sr.setModel("espcn", 4)
     return sr
@@ -85,7 +82,7 @@ def videoStream(video: FileStorage):
     supperresVideo(tempFile(ext), "out/request_superres.avi")
 
 
-# # superresImage("images/oma.jpg")
+# superresImage("images/oma.jpg")
 # time = measure(lambda: supperresVideo("images/rotating-boy.gif", "out/vid/video.avi"))
 
 # print("superresing video took: ", time)

@@ -1,12 +1,9 @@
 from flask.wrappers import Request
-from superres import supperresVideo, videoStream
-
-
-def hello_world(request: Request):
-    return "<h1>Hello, World!</h1>"
+from superres.superres import videoStream
 
 
 def superres(request: Request):
+    # print("received request!")
     # print(request.headers)
     video = request.files["video"]
     if video is None:
