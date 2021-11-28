@@ -5,9 +5,7 @@ import cv2
 from cv2 import FileStorage, dnn_superres
 from werkzeug.utils import secure_filename
 
-tempFile = lambda ext: os.path.join("temp", f"temp_vid.{ext}")
 model = lambda: "res/ESPCN_x4.pb"
-
 
 def create_superSampler():
     sr = cv2.dnn_superres.DnnSuperResImpl_create()
