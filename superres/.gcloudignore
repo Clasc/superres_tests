@@ -12,11 +12,14 @@
 # below:
 .git
 .gitignore
-.out/**/*
-.temp/**/*
-node_modules
-__pycache__
-.vscode
-env
+
+# image dirs
+out
+temp
 images
-#!include:.gitignore
+
+#libs
+__pycache__
+# dev env
+env
+.vscode

@@ -1,8 +1,9 @@
 import os
+import tempfile
 import time
-from typing import IO, Any
 import cv2
-from cv2 import CAP_PROP_TILT, THRESH_TOZERO, FileStorage, dnn_superres
+from cv2 import FileStorage, dnn_superres
+from werkzeug.utils import secure_filename
 
 tempFile = lambda ext: os.path.join("temp", f"temp_vid.{ext}")
 model = lambda: "res/ESPCN_x4.pb"
@@ -70,16 +71,25 @@ def writeFrames(frames: list, filename: str):
     writer.release()
 
 
-def supperresVideo(input: str, out: str):
+def supperresVideo(input: str) -> list:
     frames = vidToFrames(input)
-    frames = upresList(frames)
-    writeFrames(frames, out)
+    return upresList(frames)
+    # writeFrames(frames, out)
 
 
-def videoStream(video: FileStorage):
-    (_, ext) = video.filename.split(".")
-    video.save(tempFile(ext))
-    supperresVideo(tempFile(ext), "out/request_superres.avi")
+def convertAndUpresVid(video: FileStorage) -> int:
+    tempfilepath = get_file_path(video.filename)
+    video.save(tempfilepath)
+    frames = supperresVideo(tempfilepath)
+    os.remove(tempfilepath)
+    return len(frames)
+
+
+def get_file_path(filename):
+    # Note: tempfile.gettempdir() points to an in-memory file system
+    # on GCF. Thus, any files in it must fit in the instance's memory.
+    file_name = secure_filename(filename)
+    return os.path.join(tempfile.gettempdir(), file_name)
 
 
 # superresImage("images/oma.jpg")

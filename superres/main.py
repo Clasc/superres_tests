@@ -1,5 +1,5 @@
 from flask.wrappers import Request
-from superres.superres import videoStream
+from utils.superres import convertAndUpresVid
 
 
 def superres(request: Request):
@@ -8,5 +8,5 @@ def superres(request: Request):
     video = request.files["video"]
     if video is None:
         return "No video sent!"
-    videoStream(video)
-    return f"Received {len(request.files)} files ."
+    framesupresd = convertAndUpresVid(video)
+    return f"Received {framesupresd} files ."

@@ -1,0 +1,1 @@
+gcloud functions deploy superres --runtime python38 --trigger-http --allow-unauthenticated
