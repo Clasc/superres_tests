@@ -1,5 +1,6 @@
 import os
 import tempfile
+from typing import Any
 import cv2
 import numpy as np
 import base64
@@ -9,11 +10,24 @@ from werkzeug.utils import secure_filename
 model = lambda: "res/ESPCN_x4.pb"
 
 
-def upsampleBase64Img(img_data: bytes) -> bytes:
-    nparr = np.fromstring(img_data, np.uint8)
-    img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
+def upsampleBase64Img(img_data: str) -> str:
+    img = decodeImage(img_data)
     result = upsample(img)
-    return cv2.imencode("jpg", result)
+    return encodeImage(result)
+
+
+def decodeImage(img_data: str):
+    data = base64.b64decode(img_data)
+    nparr = np.frombuffer(data, np.uint8)
+    return cv2.imdecode(nparr, cv2.IMREAD_ANYCOLOR)
+
+
+def encodeImage(img: Any, extension=".jpg") -> str:
+    retval, buffer = cv2.imencode(extension, img)
+    if buffer is None:
+        print("error encoding image, buffer is empty")
+        return ""
+    return base64.b64encode(buffer)
 
 
 def create_superSampler():
