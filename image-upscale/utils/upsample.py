@@ -1,11 +1,9 @@
-import os
-import tempfile
+import base64
 from typing import Any
+
 import cv2
 import numpy as np
-import base64
-from cv2 import FileStorage, dnn_superres
-from werkzeug.utils import secure_filename
+from cv2 import dnn_superres
 
 model = lambda: "res/ESPCN_x4.pb"
 
@@ -42,10 +40,3 @@ def upsample(img):
     sr = create_superSampler()
     result = sr.upsample(img)  # upscale the input image
     return result
-
-
-def get_file_path(filename):
-    # Note: tempfile.gettempdir() points to an in-memory file system
-    # on GCF. Thus, any files in it must fit in the instance's memory.
-    file_name = secure_filename(filename)
-    return os.path.join(tempfile.gettempdir(), file_name)
